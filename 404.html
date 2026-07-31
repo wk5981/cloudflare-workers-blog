@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - 数据丢失</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Orbitron', monospace;
+            background: #0a0a0a;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* 背景网格效果 */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: grid-move 20s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        /* 主容器 */
+        .error-container {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+        
+        /* 404数字 */
+        .error-code {
+            font-size: clamp(4rem, 15vw, 12rem);
+            font-weight: 900;
+            position: relative;
+            display: inline-block;
+            text-shadow: 
+                0 0 10px #ff00ff,
+                0 0 20px #ff00ff,
+                0 0 30px #ff00ff,
+                0 0 40px #ff00ff;
+            animation: glitch 2s infinite;
+        }
+        
+        /* 故障效果 */
+        .error-code::before,
+        .error-code::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .error-code::before {
+            animation: glitch-1 0.5s infinite;
+            color: #00ffff;
+            z-index: -1;
+        }
+        
+        .error-code::after {
+            animation: glitch-2 0.5s infinite;
+            color: #ff00ff;
+            z-index: -2;
+        }
+        
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+        
+        @keyframes glitch-1 {
+            0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+            20% { clip-path: inset(20% 0 30% 0); transform: translate(-5px); }
+            40% { clip-path: inset(50% 0 20% 0); transform: translate(5px); }
+            60% { clip-path: inset(10% 0 60% 0); transform: translate(-3px); }
+            80% { clip-path: inset(80% 0 5% 0); transform: translate(3px); }
+        }
+        
+        @keyframes glitch-2 {
+            0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+            20% { clip-path: inset(60% 0 10% 0); transform: translate(5px); }
+            40% { clip-path: inset(20% 0 50% 0); transform: translate(-5px); }
+            60% { clip-path: inset(30% 0 40% 0); transform: translate(3px); }
+            80% { clip-path: inset(5% 0 80% 0); transform: translate(-3px); }
+        }
+        
+        /* 错误信息 */
+        .error-message {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeInUp 1s 0.5s forwards;
+            text-shadow: 
+                0 0 5px #00ffff,
+                0 0 10px #00ffff;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+        }
+        
+        /* 副标题 */
+        .subtitle {
+            font-size: clamp(0.8rem, 2vw, 1.1rem);
+            margin-top: 30px;
+            color: #888;
+            opacity: 0;
+            animation: fadeInUp 1s 1s forwards;
+        }
+        
+        /* 返回按钮 */
+        .back-button {
+            margin-top: 40px;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            border: none;
+            color: #000;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInUp 1s 1.5s forwards;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .back-button:hover::before {
+            left: 100%;
+        }
+        
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 20px #ff00ff,
+                0 0 40px #00ffff;
+        }
+        
+        /* 扫描线效果 */
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                #00ffff 50%, 
+                transparent 100%);
+            animation: scan 3s linear infinite;
+            z-index: 5;
+        }
+        
+        @keyframes scan {
+            0% { transform: translateY(-100vh); }
+            100% { transform: translateY(100vh); }
+        }
+        
+        /* 霓虹边框 */
+        .neon-border {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            opacity: 0;
+            animation: borderPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes borderPulse {
+            0%, 100% { opacity: 0; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.02); }
+        }
+        
+        /* 数据流背景 */
+        .data-stream {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .data-stream::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 255, 0.1) 2px,
+                rgba(0, 255, 255, 0.1) 4px
+            );
+            animation: dataFlow 10s linear infinite;
+        }
+        
+        @keyframes dataFlow {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body>
+    <div class="data-stream"></div>
+    <div class="scan-line"></div>
+    
+    <div class="error-container">
+        <div class="neon-border"></div>
+        <div class="error-code" data-text="404">404</div>
+        <div class="error-message">数据流中断</div>
+        <div class="subtitle">您请求的资源在数字世界中已消失</div>
+        <button class="back-button" onclick="goBack()">返回主页</button>
+    </div>
+    
+    <script>
+        // 添加随机闪烁效果
+        function addRandomGlitch() {
+            const errorCode = document.querySelector('.error-code');
+            const randomTime = Math.random() * 3000 + 1000;
+            
+            setTimeout(() => {
+                errorCode.style.animation = 'none';
+                setTimeout(() => {
+                    errorCode.style.animation = 'glitch 2s infinite';
+                }, 50);
+                addRandomGlitch();
+            }, randomTime);
+        }
+        
+        // 页面加载后开始随机故障效果
+        window.addEventListener('load', () => {
+            setTimeout(addRandomGlitch, 2000);
+        });
+        
+        // 返回主页功能
+        function goBack() {
+            // 添加退出动画
+            document.body.style.animation = 'fadeOut 0.5s ease-out';
+            
+            setTimeout(() => {
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.location.href = 'https://blog.wk5981.cc.cd/';
+                }
+            }, 500);
+        }
+        
+        // 添加淡出动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                to {
+                    opacity: 0;
+                    transform: scale(0.95);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // 添加键盘事件
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' || e.key === 'Enter') {
+                goBack();
+            }
+        });
+        
+        // 添加鼠标移动效果
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            const errorContainer = document.querySelector('.error-container');
+            errorContainer.style.transform = `perspective(1000px) rotateY(${(x - 0.5) * 5}deg) rotateX(${(0.5 - y) * 5}deg)`;
+        });
+        
+        // 添加点击波纹效果
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.style.position = 'fixed';
+            ripple.style.width = '20px';
+            ripple.style.height = '20px';
+            ripple.style.background = 'radial-gradient(circle, rgba(0,255,255,0.8) 0%, transparent 70%)';
+            ripple.style.borderRadius = '50%';
+            ripple.style.pointerEvents = 'none';
+            ripple.style.left = e.clientX - 10 + 'px';
+            ripple.style.top = e.clientY - 10 + 'px';
+            ripple.style.animation = 'ripple 0.6s ease-out forwards';
+            ripple.style.zIndex = '1000';
+            
+            document.body.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+        
+        // 添加波纹动画
+        const rippleStyle = document.createElement('style');
+        rippleStyle.textContent = `
+            @keyframes ripple {
+                to {
+                    width: 200px;
+                    height: 200px;
+                    opacity: 0;
+                    transform: translate(-90px, -90px) scale(1);
+                }
+            }
+        `;
+        document.head.appendChild(rippleStyle);
+    </script>
+</body>
+</html>
