@@ -12082,15 +12082,6 @@
           $eTarget.parent().find(".kx-content").slideToggle("fast");
           $eTarget.closest(".kx-item").toggleClass("active");
           $this.trigger("scroll");
-        }).on("wpcom_not_login", function() {
-          !function() {
-            if (0 === $("#login-modal").length) {
-              /** @type {string} */
-              var t = '<div class="modal fade" id="login-modal">\n    <div class="modal-dialog modal-sm">\n        <div class="modal-content">\n            <div class="modal-header">\n                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">\u00d7</span></button>\n                <h4 class="modal-title">\u8bf7\u767b\u5f55</h4>\n            </div>\n            <div class="modal-body">\n                <p>\u60a8\u8fd8\u672a\u767b\u5f55\uff0c\u8bf7\u767b\u5f55\u540e\u518d\u8fdb\u884c\u76f8\u5173\u64cd\u4f5c\uff01</p>\n            </div>\n           <div class="modal-footer">\n                    <a class="btn btn-primary" href="' + 
-              _wpcom_js.login_url + '">\u767b \u5f55</a>\n                    <a class="btn" href="' + _wpcom_js.register_url + '">\u6ce8 \u518c</a>\n                </div>\n        </div>\n    </div>\n</div>';
-              $("body").append(t);
-            }
-          }();
         }).on("DOMNodeInserted", ".navbar-action", function() {
           parseFonts();
         }).trigger("DOMNodeInserted"), _wpcom_js.fixed_sidebar && "1" == _wpcom_js.fixed_sidebar && s.length && s.find(".widget").length && $this.width() > 991) {
