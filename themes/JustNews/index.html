@@ -87,9 +87,7 @@
 															<use xlink:href="#wi-eye"></use>
 														</svg>
 													</i>
-													<span id="{{ &url }}" class="leancloud_visitors">
-														<i class="leancloud-visitors-count"></i>
-													</span>	
+													<span class="waline-pageview-count" data-path="{{ &url }}" />
 												</span>
 											</div>
 												
@@ -124,6 +122,9 @@
 
 							</ul>
 						</div>
+					</div>
+					<div id="comments" class="entry-comments">
+						{{ &OPT.commentCode }}
 					</div>
 				</div>
 				<aside class="sidebar">
@@ -211,7 +212,6 @@
 				"user_card_height": "356",
 				"video_height": "482",
 				"fixed_sidebar": "1",
-				"login_url": "/admin",
 				"register_url": "/admin",
 				"errors": {
 					"require": "\u4e0d\u80fd\u4e3a\u7a7a",
